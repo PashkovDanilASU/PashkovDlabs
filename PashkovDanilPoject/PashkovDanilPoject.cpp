@@ -122,6 +122,18 @@ void ready_unready_pipe(bool& repair)
     }
     
 };
+
+void pipe_ready_info(bool& reapir)
+{
+    if (reapir)
+    {
+        cout << " in repair" << endl;
+    }
+    else
+    {
+        cout << "not in reapir" << endl;
+    }
+};
 /**/
 
 // CS
@@ -270,18 +282,12 @@ int main()
             if (new_pipe.length != 0) 
             {
                 cout << "Pipe characteristics." << endl << "Length pipe: "<< new_pipe.length << endl << "Diamtre pipe: " << new_pipe.diametr << endl << "Pipe readiness: ";
-                if (new_pipe.ready_unready)
-                {
-                    cout << "not in repair" << endl << endl;
-                }
-                else
-                {
-                    cout << "in reapir" << endl << endl;
-                }
+                pipe_ready_info(new_pipe.ready_unready);
+                cout << endl;
             }
             if (new_CS.count != 0)
             {
-                cout << "CS characteristics." << endl << "CS name:" << new_CS.name << endl << "CS count:" << new_CS.count << endl << "count of serviceable CS: " << new_CS.count_ready << endl << "CS performance: " << new_CS.performance << endl;
+                cout << "CS characteristics." << endl << "CS name:" << new_CS.name << endl << "CS count:" << new_CS.count << endl << "Count of serviceable CS: " << new_CS.count_ready << endl << "CS performance: " << new_CS.performance << endl;
             }
             if (new_pipe.length != 0 && new_CS.count != 0)
             {
@@ -309,6 +315,38 @@ int main()
                 cout << endl << "You have not entered pipe characteristics either CS characteristics" << endl;
             }
         break;
+        case '4':
+            clear_console_space();
+            if (new_pipe.length != 0)
+            {
+                cout << " Your pipe in: ";
+                pipe_ready_info(new_pipe.ready_unready);
+                ready_unready_pipe(new_pipe.ready_unready);
+                back_to_menu();
+            }
+            else
+            {
+                back_to_menu();
+                cout << endl << "You have not entered a pipe yet, press another button" << endl;
+                break;
+            }
+            break;
+        case '5':
+            clear_console_space();
+            if (new_CS.count != 0)
+            {
+                cout << "You had count of serviceable CS: " << new_CS.count_ready << endl;
+                CS_count_ready(new_CS.count, new_CS.count_ready);
+                back_to_menu();
+            }
+            else
+            {
+                back_to_menu();
+                cout << endl << "You have not entered a CS yet, press another button" << endl;
+                break;
+            }
+        break;
+
         case '0': 
             clear_console_space();
             return 0;
