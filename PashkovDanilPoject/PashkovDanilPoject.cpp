@@ -3,27 +3,27 @@
 #include <iostream>
 #include <string>
 #include "PashkovDanilPoject.h"
+#include <fstream>
 
-using namespace std;
+using std::cin;
+using std::cout;
+using std::endl;
+using std::string;
 
 struct pipeline
 {
-    int id;
-    double length;
-    int diametr;
+    int id = 1 , diametr;
+    double length = 0;
     bool ready_unready;
 };
 
 struct CS
 { 
-    int id;
+    int id = 1 , count = 0, count_ready, performance;
     string name;
-    int count;
-    int count_ready;
-    double performance;
 };
 
-// INPUT VALIDATION
+                                        // INPUT VALIDATION
 void number_input_validation(bool& check)
 {
     if (cin.peek() != '\n' || !cin) 
@@ -39,30 +39,23 @@ void number_input_validation(bool& check)
     }
 };
 
-void word_without_space_input_validation(string& word, bool& check)
+bool word_with_space_input_validation(string word)
 {
-    for (int i = 0; i < size(word); i++)
+    int i = 0;
+    while (i != size(word))
     {
-        if (word[i] == ' ')
-        {
-            check = false;
-            cout << "Enter the name without a space, ";
-            break;
-        }
-        else
-        {
-            check = true;
-        }
+        if (word[i] != ' ')
+            return true;
+        ++i;
     }
-
+    return false;
 };
-/**/
+                                        /**/
 
-
-// PIPE
+                                // PIPE
 void length_pipe(double& length)
 {
-    cout << "Enter pipe length in meters (10 - 20):";
+    cout << "Enter pipe length in meters (10 - 20): ";
     bool check;
     while (true)
     {
@@ -81,7 +74,7 @@ void length_pipe(double& length)
 
 void diametr_pipe(int& diametr)
 {
-    cout << "Enter pipe diametrs in millimeters (630 - 1420):";
+    cout << "Enter pipe diametrs in millimeters (630 - 1420): ";
     bool check;
     while (true)
     {
@@ -127,39 +120,44 @@ void pipe_ready_info(bool& reapir)
 {
     if (reapir)
     {
-        cout << " in repair" << endl;
+        cout << "in repair" << endl;
     }
     else
     {
         cout << "not in reapir" << endl;
     }
 };
-/**/
 
-// CS
-void CS_name(string& name)
+void output_pipe_info(pipeline& new_pipe)
 {
-    bool check;
-    cout << "Enter CS name, which have length (1-50):";
+    if (new_pipe.length != 0)
+    cout << "Pipe characteristics." << endl << "Length pipe: " << new_pipe.length << endl 
+    << "Diamtre pipe: " << new_pipe.diametr << endl << "Pipe readiness: ";
+    pipe_ready_info(new_pipe.ready_unready);
+    cout << endl;
+};
+
+                                    /**/
+
+                            // CS
+
+string CS_name(string& name_CS)
+{
     while (true)
     {
-        getline(cin, name);
-        word_without_space_input_validation(name, check);
-            if ((size(name) != 0 && size(name) < 50) && check)
-            {
-                break;    
-            }
-            else
-            {
-            cout << "Enter CS name, which have length (1-50):";
-            }
-
-    }
+        cout << "Enter CS name, which have length (1-50): ";
+        getline(cin, name_CS);
+        if (name_CS != "" && word_with_space_input_validation(name_CS) && size(name_CS) <= 50)
+        {
+            return name_CS;
+            break;
+        }
+    };
 };
 
 void CS_count(int& count)
 {
-    cout << "Enter CS count (1-15):";
+    cout << "Enter CS count (1-15): ";
     bool check;
     while (true)
     {
@@ -180,7 +178,7 @@ void CS_count(int& count)
 
 void CS_count_ready(int& count, int& count_ready)
 {
-    cout << "Enter CS which ready to work, in range (0 to n), where n your CS.";
+    cout << "Enter CS which ready to work, in range (0 to n), where n your CS. ";
     bool check;
     while (true)
     {
@@ -199,9 +197,9 @@ void CS_count_ready(int& count, int& count_ready)
     
 };
 
-void CS_performance(double& performance)
+void CS_performance(int& performance)
 {
-    cout << "Enter the performance of CS, in range(0 to 100%).";
+    cout << "Enter the performance of CS, in range(0 to 100%): ";
     bool check;
     while (true)
     {
@@ -218,9 +216,18 @@ void CS_performance(double& performance)
     };
     
 };
-/**/
 
-// CONSOLE
+void output_CS_info(CS& new_CS)
+{
+    if (new_CS.count != 0)
+        cout << "CS characteristics." << endl << "CS name: " << new_CS.name << endl 
+        << "CS count: " << new_CS.count << endl << "Count of serviceable CS: " 
+        << new_CS.count_ready << endl << "CS performance: " << new_CS.performance << endl;
+    cout << endl;
+};
+                            /**/
+
+                            // CONSOLE
 void clear_console_space()
 {
     system("cls");
@@ -238,22 +245,105 @@ void menu_display()
         "0. Exit\n";
 };
 
+void show_all_objects(pipeline& new_pipe, CS& new_CS)
+{
+    if (new_pipe.length == 0 && new_CS.count == 0)
+    {
+        cout << "Your Pipe and CS data are empty. Try again after adding info." << endl;
+    }
+    if (new_pipe.length != 0)
+    {
+        output_pipe_info(new_pipe);
+    }
+    if (new_CS.count != 0)
+    {
+        output_CS_info(new_CS);
+    }
+};
+
 void back_to_menu()
 {
     clear_console_space();
     menu_display();
 }
-/**/
+                            /**/
 
+                                                                          //SAVE & READ TO FILE
+void output_pipe_to_file(const pipeline& new_pipe, std::ofstream& datfile) 
+{
+    if (new_pipe.length != 0)
+    {
+        datfile << new_pipe.id << '\n'
+            << new_pipe.length << '\n'
+            << new_pipe.diametr << '\n'
+            << new_pipe.ready_unready << '\n';
+    }
+}
+
+void output_CS_to_file(const CS& new_CS, std::ofstream& datfile) 
+{
+    if (new_CS.count != 0) 
+    {
+        datfile << new_CS.id << '\n'
+           << new_CS.name << '\n'
+           << new_CS.count << '\n'
+           << new_CS.count_ready << '\n'
+           << new_CS.performance;
+    }
+}
+
+void save_to_file(const CS& new_CS, const pipeline& new_pipe)
+{
+    std::ofstream datfile("information.txt");
+    if (datfile.is_open()) 
+    {
+        output_pipe_to_file(new_pipe, datfile);
+        datfile << " \n";
+        output_CS_to_file(new_CS, datfile);
+        datfile.close();
+    }
+    else {
+        cout<< "Error. File is missing or dont exist.\n";
+    }
+}
+
+void read_from_file(CS& new_CS, pipeline& new_pipe) 
+{
+    std::ifstream dataaread("information.txt");
+    if (dataaread.is_open()) 
+    {
+        if (dataaread.peek() != -1) 
+        {
+            while (dataaread.peek() != ' ')
+            {
+                dataaread >> new_pipe.id >> new_pipe.length >> new_pipe.diametr >> new_pipe.ready_unready;
+                dataaread.ignore(1000, '\n');
+            }
+            dataaread.ignore(1000, '\n');
+            while (dataaread.peek() != -1) 
+            {
+                dataaread >> new_CS.id; 
+                dataaread >> new_CS.name;
+                dataaread >> new_CS.count >> new_CS.count_ready >> new_CS.performance;
+            }
+            dataaread.close();
+        }
+        else
+        {
+            cout << "You dont load data to file to read it.\n";
+        }
+    }
+    else 
+    {
+        cout<< "File cant be open or empty.";
+    }
+}
+                                                                             /**/
 int main()
 {
     pipeline new_pipe;
     CS new_CS;
-    new_pipe.id = 1;
-    new_pipe.length = 0;
-    new_CS.id = 1;
-    new_CS.count = 0;
-    int menu_navigator;
+    char menu_navigator;
     menu_display();
     while (true)
     {
@@ -278,48 +368,13 @@ int main()
             back_to_menu();
             break;
         case '3':
-            clear_console_space();
-            if (new_pipe.length != 0) 
-            {
-                cout << "Pipe characteristics." << endl << "Length pipe: "<< new_pipe.length << endl << "Diamtre pipe: " << new_pipe.diametr << endl << "Pipe readiness: ";
-                pipe_ready_info(new_pipe.ready_unready);
-                cout << endl;
-            }
-            if (new_CS.count != 0)
-            {
-                cout << "CS characteristics." << endl << "CS name:" << new_CS.name << endl << "CS count:" << new_CS.count << endl << "Count of serviceable CS: " << new_CS.count_ready << endl << "CS performance: " << new_CS.performance << endl;
-            }
-            if (new_pipe.length != 0 && new_CS.count != 0)
-            {
-                cout << " Press '0' on your keyboard to return to the menu.";
-                while (true)
-                {
-                    if (cin.get() != '0')
-                    {
-                        cout << "Press '0' on your keyboard to return to the menu.";
-                        cin.clear();
-                        cin.ignore(10000, '\n');
-                    }
-                    else
-                    {
-                        cin.clear();
-                        cin.ignore(10000, '\n');
-                        back_to_menu();
-                        break;
-                    }
-                };
-            }
-            else
-            {
-                back_to_menu();
-                cout << endl << "You have not entered pipe characteristics either CS characteristics" << endl;
-            }
+            show_all_objects(new_pipe, new_CS);
         break;
         case '4':
             clear_console_space();
             if (new_pipe.length != 0)
             {
-                cout << " Your pipe in: ";
+                cout << "Your pipe in: ";
                 pipe_ready_info(new_pipe.ready_unready);
                 ready_unready_pipe(new_pipe.ready_unready);
                 back_to_menu();
@@ -327,7 +382,7 @@ int main()
             else
             {
                 back_to_menu();
-                cout << endl << "You have not entered a pipe yet, press another button" << endl;
+                cout << endl << "You have not entered a pipe yet, press another button." << endl;
                 break;
             }
             break;
@@ -346,7 +401,12 @@ int main()
                 break;
             }
         break;
-
+        case '6':
+            save_to_file(new_CS, new_pipe);
+            break;
+        case '7':
+            read_from_file(new_CS, new_pipe);
+            break;
         case '0': 
             clear_console_space();
             return 0;
@@ -356,9 +416,3 @@ int main()
         };
     };
 };
-
-
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
