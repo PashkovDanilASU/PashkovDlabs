@@ -38,6 +38,24 @@ void number_input_validation(bool& check)
         check = true;
     }
 };
+
+void word_without_space_input_validation(string& word, bool& check)
+{
+    for (int i = 0; i < size(word); i++)
+    {
+        if (word[i] == ' ')
+        {
+            check = false;
+            cout << "Enter the name without a space, ";
+            break;
+        }
+        else
+        {
+            check = true;
+        }
+    }
+
+};
 /**/
 
 
@@ -82,7 +100,7 @@ void diametr_pipe(int& diametr)
 
 void ready_unready_pipe(bool& repair)
 {
-    cout << "in Rrepair or not in repair? Push on your keyboard 'y' or 'n'. ";
+    cout << "in Rrepair or not in repair? Press on your keyboard 'y' or 'n'. ";
     char flagpipe;
     while (true)
     {
@@ -109,8 +127,22 @@ void ready_unready_pipe(bool& repair)
 // CS
 void CS_name(string& name)
 {
-    cout << "Enter CS name:";
-    getline(cin, name);
+    bool check;
+    cout << "Enter CS name, which have length (1-50):";
+    while (true)
+    {
+        getline(cin, name);
+        word_without_space_input_validation(name, check);
+            if ((size(name) != 0 && size(name) < 50) && check)
+            {
+                break;    
+            }
+            else
+            {
+            cout << "Enter CS name, which have length (1-50):";
+            }
+
+    }
 };
 
 void CS_count(int& count)
@@ -206,7 +238,9 @@ int main()
     pipeline new_pipe;
     CS new_CS;
     new_pipe.id = 1;
+    new_pipe.length = 0;
     new_CS.id = 1;
+    new_CS.count = 0;
     int menu_navigator;
     menu_display();
     while (true)
@@ -233,9 +267,47 @@ int main()
             break;
         case '3':
             clear_console_space();
-            cout << "Pipe characteristics." << endl << "Length pipe: " << new_pipe.length << endl << "Diamtre pipe: " << new_pipe.diametr << endl << "Pipe readiness: " << new_pipe.ready_unready << endl
-            << endl << "CS characteristics." << endl << "CS name:" << new_CS.name << endl << "CS count:" << new_CS.count << endl << "count of serviceable CS: " << new_CS.count_ready << endl << "CS performance: " << new_CS.performance;
-            back_to_menu();
+            if (new_pipe.length != 0) 
+            {
+                cout << "Pipe characteristics." << endl << "Length pipe: "<< new_pipe.length << endl << "Diamtre pipe: " << new_pipe.diametr << endl << "Pipe readiness: ";
+                if (new_pipe.ready_unready)
+                {
+                    cout << "not in repair" << endl << endl;
+                }
+                else
+                {
+                    cout << "in reapir" << endl << endl;
+                }
+            }
+            if (new_CS.count != 0)
+            {
+                cout << "CS characteristics." << endl << "CS name:" << new_CS.name << endl << "CS count:" << new_CS.count << endl << "count of serviceable CS: " << new_CS.count_ready << endl << "CS performance: " << new_CS.performance << endl;
+            }
+            if (new_pipe.length != 0 && new_CS.count != 0)
+            {
+                cout << " Press '0' on your keyboard to return to the menu.";
+                while (true)
+                {
+                    if (cin.get() != '0')
+                    {
+                        cout << "Press '0' on your keyboard to return to the menu.";
+                        cin.clear();
+                        cin.ignore(10000, '\n');
+                    }
+                    else
+                    {
+                        cin.clear();
+                        cin.ignore(10000, '\n');
+                        back_to_menu();
+                        break;
+                    }
+                };
+            }
+            else
+            {
+                back_to_menu();
+                cout << endl << "You have not entered pipe characteristics either CS characteristics" << endl;
+            }
         break;
         case '0': 
             clear_console_space();
