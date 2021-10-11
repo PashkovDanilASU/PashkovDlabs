@@ -12,60 +12,45 @@ using std::string;
 
 struct pipeline
 {
-    int id = 1 , diametr;
+    int id = 1 , diametr = 0;
     double length = 0;
-    bool ready_unready;
+    bool ready_unready = false;
 };
 
 struct CS
 { 
-    int id = 1 , count = 0, count_ready, performance;
+    int id = 1 , count = 0, count_ready = 0, performance = 0;
     string name;
 };
 
                                         // INPUT VALIDATION
-void number_input_validation(bool& check)
+bool is_input_valid()
 {
-    if (cin.peek() != '\n' || !cin) 
+    if (cin.peek() != '\n' || !cin)
     {
         cout << "You entered an invalid number, enter a new number: ";
         cin.clear();
         cin.ignore(10000, '\n');
-        check = false;
+        return false;
     }
-    else 
-    {
-        check = true;
-    }
+    return true;
+
 };
 
-bool word_with_space_input_validation(string word)
-{
-    int i = 0;
-    while (i != size(word))
-    {
-        if (word[i] != ' ')
-            return true;
-        ++i;
-    }
-    return false;
-};
                                         /**/
 
                                 // PIPE
 void length_pipe(double& length)
 {
     cout << "Enter pipe length in meters (10 - 20): ";
-    bool check;
     while (true)
     {
         cin >> length;
-        number_input_validation(check);
-        if (check && (length > 20 || length < 10))
+        if (is_input_valid() && (length > 20 || length < 10))
         {
             cout << "You entered an invalid number, enter a new number: ";
         }
-        else if (check)
+        else if (is_input_valid())
         {
             break;
         }
@@ -75,16 +60,14 @@ void length_pipe(double& length)
 void diametr_pipe(int& diametr)
 {
     cout << "Enter pipe diametrs in millimeters (630 - 1420): ";
-    bool check;
     while (true)
     {
         cin >> diametr;
-        number_input_validation(check);
-        if (check && (diametr > 1420 || diametr < 630))
+        if (is_input_valid() && (diametr > 1420 || diametr < 630))
         {
             cout << "You entered an invalid number, enter a new number: ";
         }
-        else if (check)
+        else if (is_input_valid())
         {
             break;
         }
@@ -128,28 +111,35 @@ void pipe_ready_info(bool& reapir)
     }
 };
 
+void input_pipe_info(pipeline& new_pipe)
+{
+    length_pipe(new_pipe.length);
+    diametr_pipe(new_pipe.diametr);
+    ready_unready_pipe(new_pipe.ready_unready);
+};
+
 void output_pipe_info(pipeline& new_pipe)
 {
     if (new_pipe.length != 0)
-    cout << "Pipe characteristics." << endl << "Length pipe: " << new_pipe.length << endl 
-    << "Diamtre pipe: " << new_pipe.diametr << endl << "Pipe readiness: ";
-    pipe_ready_info(new_pipe.ready_unready);
-    cout << endl;
+    {
+        cout << "Pipe characteristics." << endl << "Length pipe: " << new_pipe.length << endl
+            << "Diamtre pipe: " << new_pipe.diametr << endl << "Pipe readiness: ";
+        pipe_ready_info(new_pipe.ready_unready);
+        cout << endl;
+    }
 };
-
                                     /**/
 
                             // CS
-
-string CS_name(string& name_CS)
+void CS_name(string& name_CS)
 {
     while (true)
     {
-        cout << "Enter CS name, which have length (1-50): ";
+        cout << "Enter CS name, which have length (1-50):";
+        cin >> std::ws;
         getline(cin, name_CS);
-        if (name_CS != "" && word_with_space_input_validation(name_CS) && size(name_CS) <= 50)
+        if (size(name_CS) <= 50)
         {
-            return name_CS;
             break;
         }
     };
@@ -158,16 +148,14 @@ string CS_name(string& name_CS)
 void CS_count(int& count)
 {
     cout << "Enter CS count (1-15): ";
-    bool check;
     while (true)
     {
         cin >> count;
-        number_input_validation(check);
-        if (check && (count > 15 || count < 1))
+        if (is_input_valid() && (count > 15 || count < 1))
         {
             cout << "You entered an invalid number, enter a new number: ";
         }
-        else if (check)
+        else if (is_input_valid())
         {
             break;
         }
@@ -179,16 +167,14 @@ void CS_count(int& count)
 void CS_count_ready(int& count, int& count_ready)
 {
     cout << "Enter CS which ready to work, in range (0 to n), where n your CS. ";
-    bool check;
     while (true)
     {
         cin >> count_ready;
-        number_input_validation(check);
-        if (check && (count < count_ready || count_ready < 0))
+        if (is_input_valid() && (count < count_ready || count_ready < 0))
         {
             cout << "You entered an invalid number, enter a new number: ";
         }
-        else if (check)
+        else if (is_input_valid())
         {
             break;
         }
@@ -200,16 +186,14 @@ void CS_count_ready(int& count, int& count_ready)
 void CS_performance(int& performance)
 {
     cout << "Enter the performance of CS, in range(0 to 100%): ";
-    bool check;
     while (true)
     {
         cin >> performance;
-        number_input_validation(check);
-        if (check && (performance > 100 || performance < 0))
+        if (is_input_valid() && (performance > 100 || performance < 0))
         {
             cout << "You entered an invalid number, enter a new number: ";
         }
-        else if (check)
+        else if (is_input_valid())
         {
             break;
         }
@@ -217,7 +201,15 @@ void CS_performance(int& performance)
     
 };
 
-void output_CS_info(CS& new_CS)
+void input_CS_info(CS& new_CS)
+{
+    CS_name(new_CS.name);
+    CS_count(new_CS.count);
+    CS_count_ready(new_CS.count, new_CS.count_ready);
+    CS_performance(new_CS.performance);
+};
+
+void output_CS_info(const CS& new_CS)
 {
     if (new_CS.count != 0)
         cout << "CS characteristics." << endl << "CS name: " << new_CS.name << endl 
@@ -245,7 +237,7 @@ void menu_display()
         "0. Exit\n";
 };
 
-void show_all_objects(pipeline& new_pipe, CS& new_CS)
+void show_all_objects(pipeline& new_pipe, const CS& new_CS)
 {
     if (new_pipe.length == 0 && new_CS.count == 0)
     {
@@ -269,108 +261,112 @@ void back_to_menu()
                             /**/
 
                                                                           //SAVE & READ TO FILE
-void output_pipe_to_file(const pipeline& new_pipe, std::ofstream& datfile) 
+void output_pipe_to_file(const pipeline& new_pipe, std::ofstream& fsave)
 {
     if (new_pipe.length != 0)
     {
-        datfile << new_pipe.id << '\n'
+        fsave << new_pipe.id << '\n'
             << new_pipe.length << '\n'
             << new_pipe.diametr << '\n'
             << new_pipe.ready_unready << '\n';
     }
-}
+};
 
-void output_CS_to_file(const CS& new_CS, std::ofstream& datfile) 
+void output_CS_to_file(const CS& new_CS, std::ofstream& fsave)
 {
-    if (new_CS.count != 0) 
+    if (new_CS.count != 0)
     {
-        datfile << new_CS.id << '\n'
-           << new_CS.name << '\n'
-           << new_CS.count << '\n'
-           << new_CS.count_ready << '\n'
-           << new_CS.performance;
+        fsave << new_CS.id << '\n'
+            << new_CS.name << '\n'
+            << new_CS.count << '\n'
+            << new_CS.count_ready << '\n'
+            << new_CS.performance;
     }
-}
+};
 
 void save_to_file(const CS& new_CS, const pipeline& new_pipe)
 {
-    std::ofstream datfile("information.txt");
-    if (datfile.is_open()) 
+    std::ofstream fsave("information.txt");
+    if (fsave.is_open())
     {
-        output_pipe_to_file(new_pipe, datfile);
-        datfile << " \n";
-        output_CS_to_file(new_CS, datfile);
-        datfile.close();
+        output_pipe_to_file(new_pipe, fsave);
+        fsave << " \n";
+        output_CS_to_file(new_CS, fsave);
+        fsave.close();
     }
     else {
-        cout<< "Error. File is missing or dont exist.\n";
+        cout << "Error. File is missing or dont exist.\n";
     }
-}
+};
 
-void read_from_file(CS& new_CS, pipeline& new_pipe) 
+void read_from_file(CS& new_CS, pipeline& new_pipe)
 {
-    std::ifstream dataaread("information.txt");
-    if (dataaread.is_open()) 
+    std::ifstream fread("information.txt");
+    if (fread.is_open())
     {
-        if (dataaread.peek() != -1) 
+        if (fread.peek() != -1)
         {
-            while (dataaread.peek() != ' ')
+            while (fread.peek() != ' ')
             {
-                dataaread >> new_pipe.id >> new_pipe.length >> new_pipe.diametr >> new_pipe.ready_unready;
-                dataaread.ignore(1000, '\n');
+                fread >> new_pipe.id >> new_pipe.length >> new_pipe.diametr >> new_pipe.ready_unready;
+                fread.ignore(1000, '\n');
             }
-            dataaread.ignore(1000, '\n');
-            while (dataaread.peek() != -1) 
+            fread.ignore(1000, '\n');
+            while (fread.peek() != -1)
             {
-                dataaread >> new_CS.id; 
-                dataaread >> new_CS.name;
-                dataaread >> new_CS.count >> new_CS.count_ready >> new_CS.performance;
+                fread >> new_CS.id;
+                fread.ignore(1000, '\n');
+                getline(fread, new_CS.name);
+                fread >> new_CS.count >> new_CS.count_ready >> new_CS.performance;
             }
-            dataaread.close();
+            fread.close();
         }
         else
         {
             cout << "You dont load data to file to read it.\n";
         }
     }
-    else 
+    else
     {
-        cout<< "File cant be open or empty.";
+        cout << "File cant be open or empty.";
     }
-}
+};
                                                                              /**/
 int main()
 {
     pipeline new_pipe;
     CS new_CS;
-    char menu_navigator;
+    int menu_navigator;
     menu_display();
     while (true)
     {
-        menu_navigator = getchar();
-        cin.clear();
-        cin.ignore(10000, '\n');
+        cin >> menu_navigator;
+        if (!is_input_valid())
+        {
+            menu_navigator = -1;
+        }
+            else if (menu_navigator > 7 || menu_navigator < 0)
+            {
+                menu_navigator = -1;
+                cout << "You entered an invalid number, enter a new number: ";
+            }
+        cin.ignore(1000, '\n');
         switch (menu_navigator)
         {
-        case '1':
+        case 1:
             clear_console_space();
-            length_pipe(new_pipe.length);
-            diametr_pipe(new_pipe.diametr);
-            ready_unready_pipe(new_pipe.ready_unready);
+            input_pipe_info(new_pipe);
             back_to_menu();
         break;
-        case '2':
+        case 2:
             clear_console_space();
-            CS_name(new_CS.name);
-            CS_count(new_CS.count);
-            CS_count_ready(new_CS.count, new_CS.count_ready);
-            CS_performance(new_CS.performance);
+            input_CS_info(new_CS);
             back_to_menu();
             break;
-        case '3':
+        case 3:
             show_all_objects(new_pipe, new_CS);
-        break;
-        case '4':
+            break;
+        case 4:
             clear_console_space();
             if (new_pipe.length != 0)
             {
@@ -386,7 +382,7 @@ int main()
                 break;
             }
             break;
-        case '5':
+        case 5:
             clear_console_space();
             if (new_CS.count != 0)
             {
@@ -400,14 +396,14 @@ int main()
                 cout << endl << "You have not entered a CS yet, press another button" << endl;
                 break;
             }
-        break;
-        case '6':
+            break;
+        case 6:
             save_to_file(new_CS, new_pipe);
             break;
-        case '7':
+        case 7:
             read_from_file(new_CS, new_pipe);
             break;
-        case '0': 
+        case 0: 
             clear_console_space();
             return 0;
             break;
