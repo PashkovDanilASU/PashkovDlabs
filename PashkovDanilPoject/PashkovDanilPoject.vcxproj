@@ -139,9 +139,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ClassCS.cpp" />
+    <ClCompile Include="ClassIntilization.cpp" />
+    <ClCompile Include="ClassMenu.cpp" />
+    <ClCompile Include="ClassPipe.cpp" />
     <ClCompile Include="PashkovDanilPoject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ClassCS.h" />
+    <ClInclude Include="ClassIntilization.h" />
+    <ClInclude Include="ClassMenu.h" />
+    <ClInclude Include="ClassPipe.h" />
     <ClInclude Include="PashkovDanilPoject.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

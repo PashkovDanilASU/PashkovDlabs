@@ -1,9 +1,11 @@
 // PashkovDanilPoject.cpp : This file contains the 'main' function. Program execution begins and ends there.
 
 #include <iostream>
-#include <string>
 #include "PashkovDanilPoject.h"
 #include <fstream>
+#include "ClassPipe.h"
+#include "ClassCS.h"
+#include "ClassMenu.h"
 
 using std::cin;
 using std::cout;
@@ -217,6 +219,7 @@ void read_from_file(CS& new_CS, pipeline& new_pipe){
 /**/
 int main()
 {
+	Pipe pipe1;
 	pipeline new_pipe;
 	CS new_CS;
 	int menu_navigator;
