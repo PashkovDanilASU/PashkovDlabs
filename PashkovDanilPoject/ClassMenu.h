@@ -1,7 +1,8 @@
 #pragma once
+#include <iostream>
 
-class Menu {
+class Menu{
 public:
-	void menu_display();
-	void back_to_menu();
+	static void menu_display();
+	static void back_to_menu();
 };

@@ -1,14 +1,18 @@
 #pragma once
+
 #include <iostream>
+#include "ClassIntilization.h"
+#include "ClassMenu.h"
 
 class Pipe {
 private:
-	int id;
+	int id = 0;
 
 public:
 	int diametr;
 	bool ready_unready;
 	double length;
-	void input_Pipe();
 
+	void ready_unready_pipe(bool& repair);
+	void input_Pipe();
 };

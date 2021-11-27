@@ -2,9 +2,7 @@
 #include <string>
 #include <iostream>
 
-class CS{
-private:
-
+class CSS{
 public:
 	int id, count , count_ready , performance;
     std :: string name;

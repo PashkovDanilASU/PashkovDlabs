@@ -1,6 +1,6 @@
 #include "ClassCS.h"
 
-void CS::input_CS()
+void CSS::input_CS()
 {
 	std :: cout << "Hello World 2";
 }
