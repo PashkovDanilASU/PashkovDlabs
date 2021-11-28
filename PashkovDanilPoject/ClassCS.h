@@ -3,15 +3,16 @@
 #include <iostream>
 #include<string>
 
-class CSS{
+class CS{
 private:
 	int id;
 public:
 	static int MaxID;
 	int count, count_ready, performance;
     std :: string name;
-	void input_CS();
+	CS();
 
-	int get_ID();
+	int get_ID() const;
 	void set_ID(int id);
+	friend std::ostream& operator << (std::ostream& out, const CS& cs);
 };

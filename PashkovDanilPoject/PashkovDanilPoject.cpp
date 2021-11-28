@@ -16,7 +16,7 @@ struct pipeline{
 	bool ready_unready = false;
 };
 
-struct CS{
+struct CSSSS{
 	int id = 1, count = 0, count_ready = 0, performance = 0;
 	string name;
 };
@@ -82,7 +82,7 @@ void output_pipe_info(const pipeline& new_pipe){
 /**/
 
 // CS
-void input_CS_info(CS& new_CS){
+void input_CS_info(CSSSS& new_CS){
 	clear_console_space();
 	while (true){
 		cout << "Enter CS name, which have length (1-50):";
@@ -101,7 +101,7 @@ void input_CS_info(CS& new_CS){
 	Menu:: back_to_menu();
 };
 
-void output_CS_info(const CS& new_CS){
+void output_CS_info(const CSSSS& new_CS){
 	if (new_CS.count != 0)
 		cout << "CS characteristics." << endl << "CS name: " << new_CS.name << endl
 		<< "CS count: " << new_CS.count << endl << "Count of serviceable CS: "
@@ -111,7 +111,7 @@ void output_CS_info(const CS& new_CS){
 /**/
 
 // CONSOLE
-void show_all_objects(const pipeline& new_pipe, const CS& new_CS){
+void show_all_objects(const pipeline& new_pipe, const CSSSS& new_CS){
 	if (new_pipe.length == 0 && new_CS.count == 0){
 		cout << "Your Pipe and CS data are empty. Try again after adding info." << endl;
 	}
@@ -134,7 +134,7 @@ void output_pipe_to_file(const pipeline& new_pipe, std::ofstream& fsave){
 	}
 };
 
-void output_CS_to_file(const CS& new_CS, std::ofstream& fsave){
+void output_CS_to_file(const CSSSS& new_CS, std::ofstream& fsave){
 	if (new_CS.count != 0){
 		fsave << new_CS.id << '\n'
 			<< new_CS.name << '\n'
@@ -144,7 +144,7 @@ void output_CS_to_file(const CS& new_CS, std::ofstream& fsave){
 	}
 };
 
-void save_to_file(const CS& new_CS, const pipeline& new_pipe){
+void save_to_file(const CSSSS& new_CS, const pipeline& new_pipe){
 	std::ofstream fsave("information.txt");
 	if (fsave.is_open()){
 		output_pipe_to_file(new_pipe, fsave);
@@ -157,7 +157,7 @@ void save_to_file(const CS& new_CS, const pipeline& new_pipe){
 	}
 };
 
-void read_from_file(CS& new_CS, pipeline& new_pipe){
+void read_from_file(CSSSS& new_CS, pipeline& new_pipe){
 	std::ifstream fread("information.txt");
 	if (fread.is_open()){
 		if (fread.peek() != -1){
@@ -190,11 +190,11 @@ void read_from_file(CS& new_CS, pipeline& new_pipe){
 
 int main() {
 	
-	unordered_map<int, CSS> CSss;
+	unordered_map<int, CS> CSs;
 	unordered_map<int, Pipe> pipes;
 
-	pipeline new_pipe;
-	CS new_CS;
+	pipeline new_pipe0;
+	CSSSS new_CS0;
 
 	int menu_navigator;
 	Menu :: menu_display();
@@ -202,25 +202,39 @@ int main() {
 		Validation:: input_range(menu_navigator, 7, 0);
 		switch (menu_navigator){
 		case 1:{
-			Pipe new_pipe1;
-			new_pipe1.input_Pipe();
-			pipes.insert({ new_pipe1.get_ID(), new_pipe1 });
+			Pipe new_pipe;
+			pipes.insert({ new_pipe.get_ID(), new_pipe });
 			break;
 		}
 		case 2: {
-			CSS new_CSs;
-			new_CSs.input_CS();
-			CSss.insert({ new_CSs.get_ID(), new_CSs });
+			CS new_CS;
+			CSs.insert({ new_CS.get_ID(), new_CS });
 			break;
 		}
 		case 3: 
-			show_all_objects(new_pipe, new_CS);
+			if (pipes.empty() && CSs.empty()) {
+				cout << "Your Pipe and CS data are empty. Try again after adding info." << endl;
+				break;
+			}
+			if (!pipes.empty()) {
+				cout << "Pipe info:" << endl;
+				for (auto item : pipes) {
+					cout << item.second;
+				}
+
+			}
+			if (!CSs.empty()) {
+				cout << "CS info:" << endl;
+				for (auto item : CSs) {
+					cout << item.second;
+				}
+			}
 			break;
 		case 4:
-			if (new_pipe.length != 0){
+			if (new_pipe0.length != 0){
 				cout << "Your pipe in: ";
-				pipe_ready_info(new_pipe.ready_unready);
-				ready_unready_pipe(new_pipe.ready_unready);
+				pipe_ready_info(new_pipe0.ready_unready);
+				ready_unready_pipe(new_pipe0.ready_unready);
 				Menu:: back_to_menu();
 			}
 			else{
@@ -231,9 +245,9 @@ int main() {
 			break;
 		case 5:
 			clear_console_space();
-			if (new_CS.count != 0){
-				cout << "You had count of serviceable CS: " << new_CS.count_ready << endl;
-				Validation:: input_range(new_CS.count_ready, new_CS.count, 0);
+			if (new_CS0.count != 0){
+				cout << "You had count of serviceable CS: " << new_CS0.count_ready << endl;
+				Validation:: input_range(new_CS0.count_ready, new_CS0.count, 0);
 				Menu:: back_to_menu();
 			}
 			else{
@@ -243,10 +257,10 @@ int main() {
 			}
 			break;
 		case 6:
-			save_to_file(new_CS, new_pipe);
+			save_to_file(new_CS0, new_pipe0);
 			break;
 		case 7:
-			read_from_file(new_CS, new_pipe);
+			read_from_file(new_CS0, new_pipe0);
 			break;
 		case 0:
 			clear_console_space();
