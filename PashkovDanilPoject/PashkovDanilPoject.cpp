@@ -6,6 +6,7 @@
 #include "ClassMenu.h"
 #include "ClassIntilization.h"
 
+using std :: unordered_map;
 using std::endl;
 using std::string;
 
@@ -58,9 +59,9 @@ void ready_unready_pipe(bool& repair) {
 void input_pipe_info(pipeline& new_pipe){
 	clear_console_space();
 	cout << "Enter pipe length in meters (10 - 2000): ";
-	ver :: input_range(new_pipe.length, 2000., 10.);
+	Validation:: input_range(new_pipe.length, 2000., 10.);
 	cout << "Enter pipe diametrs in millimeters (630 - 1420): ";
-	ver :: input_range(new_pipe.diametr, 1420, 630);
+	Validation:: input_range(new_pipe.diametr, 1420, 630);
 	ready_unready_pipe(new_pipe.ready_unready);
 	Menu:: back_to_menu();
 };
@@ -92,11 +93,11 @@ void input_CS_info(CS& new_CS){
 		}
 	};
 	cout << "Enter CS count (1-15): ";
-	ver :: input_range(new_CS.count, 15, 1);
+	Validation:: input_range(new_CS.count, 15, 1);
 	cout << "Enter CS which ready to work, in range (0 to n), where n your CS. ";
-	ver :: input_range(new_CS.count_ready, new_CS.count, 0);
+	Validation:: input_range(new_CS.count_ready, new_CS.count, 0);
 	cout << "Enter the performance of CS, in range(0 to 100%): ";
-	ver :: input_range(new_CS.performance, 100, 0);
+	Validation:: input_range(new_CS.performance, 100, 0);
 	Menu:: back_to_menu();
 };
 
@@ -182,23 +183,37 @@ void read_from_file(CS& new_CS, pipeline& new_pipe){
 	}
 };
 /**/
-int main()
-{
+
+
+
+
+
+int main() {
+	
+	unordered_map<int, CSS> CSss;
+	unordered_map<int, Pipe> pipes;
+
 	pipeline new_pipe;
 	CS new_CS;
+
 	int menu_navigator;
 	Menu :: menu_display();
 	while (true){
-		ver :: input_range(menu_navigator, 7, 0);
+		Validation:: input_range(menu_navigator, 7, 0);
 		switch (menu_navigator){
 		case 1:{
-			input_pipe_info(new_pipe);
+			Pipe new_pipe1;
+			new_pipe1.input_Pipe();
+			pipes.insert({ new_pipe1.get_ID(), new_pipe1 });
 			break;
 		}
-		case 2:
-			input_CS_info(new_CS);
+		case 2: {
+			CSS new_CSs;
+			new_CSs.input_CS();
+			CSss.insert({ new_CSs.get_ID(), new_CSs });
 			break;
-		case 3:
+		}
+		case 3: 
 			show_all_objects(new_pipe, new_CS);
 			break;
 		case 4:
@@ -218,7 +233,7 @@ int main()
 			clear_console_space();
 			if (new_CS.count != 0){
 				cout << "You had count of serviceable CS: " << new_CS.count_ready << endl;
-				ver :: input_range(new_CS.count_ready, new_CS.count, 0);
+				Validation:: input_range(new_CS.count_ready, new_CS.count, 0);
 				Menu:: back_to_menu();
 			}
 			else{

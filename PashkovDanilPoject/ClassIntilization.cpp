@@ -1,6 +1,6 @@
 #include "ClassIntilization.h"
 
-bool ver::is_input_valid() {
+bool Validation::is_input_valid() {
 	if (!cin || cin.peek() != '\n')
 	{
 		cout << "You entered an invalid number, enter a new number: ";
