@@ -1,6 +1,8 @@
 #include "ClassCS.h"
 #include "ClassMenu.h"
 #include "ClassIntilization.h"
+#include <iostream>
+
 
 int CS::get_ID() const{
 	return  id;
@@ -17,26 +19,55 @@ CS :: CS()
 	id = ++MaxID;
 	system("cls");
 	while (true) {
-		cout << "Enter CS name, which have length (1-50):";
-		cin >> std::ws;
-		getline(cin, name);
+		std::cout << "Enter CS name, which have length (1-50):";
+		std::cin >> std::ws;
+		getline(std::cin, name);
 		if (size(name) <= 50) {
 			break;
 		}
 	};
-	cout << "Enter workshops count (1-15): ";
+	std::cout << "Enter workshops count (1-15): ";
 	Validation::input_range(count, 15, 1);
-	cout << "Enter workshops which ready to work, in range (0 to n), where n your CS. ";
+	std::cout << "Enter workshops which ready to work, in range (0 to n), where n your CS. ";
 	Validation::input_range(count_ready, count, 0);
-	cout << "Enter the performance of CS, in range(0 to 100%): ";
+	std::cout << "Enter the performance of CS, in range(0 to 100%): ";
 	Validation::input_range(performance, 100, 0);
 	Menu::back_to_menu();
 };
 
 std::ostream& operator << (std::ostream& out, const CS& cs) {
-	out << endl << "CS id: " << cs.get_ID() << endl << "CS name: " << cs.name << endl
+	out << std::endl << "CS id: " << cs.get_ID() << std::endl << "CS name: " << cs.name << std::endl
 		<< "CS count workshops: " << cs.count
-		<< endl << "CS count ready workshops: " << cs.count_ready
-		<< endl << "CS performance: " << cs.performance << endl;
+		<< std::endl << "CS count ready workshops: " << cs.count_ready
+		<< std::endl << "CS performance: " << cs.performance << std::endl;
 	return out;
+}
+
+CS::CS(std::ifstream& in) {
+	name = "";
+	count = 0;
+	count_ready = 0;
+	performance = 0;
+}
+
+std::ofstream& operator << (std::ofstream& f_out, const CS& cs) {
+	f_out << cs.get_ID() << std::endl << cs.name << std::endl << cs.count
+		<< std::endl << cs.count_ready << std::endl
+		<< cs.performance << std::endl;
+	return f_out;
+}
+
+std::ifstream& operator >> (std::ifstream& f_in, CS& cs) {
+	int x;
+	f_in >> x >> std::ws;
+	if (CS::MaxID <= x) {
+		CS::MaxID = x;
+	}
+	cs.set_ID(x);
+	getline(f_in, cs.name);
+	f_in >> cs.count;
+	f_in >> cs.count_ready;
+	f_in >> cs.performance;
+	f_in >> std::ws;
+	return f_in;
 }

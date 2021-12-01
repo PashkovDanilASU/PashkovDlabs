@@ -1,7 +1,8 @@
 #pragma once
-#include <string>
 #include <iostream>
-#include<string>
+#include <fstream>
+#include <string>
+
 
 class CS{
 private:
@@ -14,5 +15,9 @@ public:
 
 	int get_ID() const;
 	void set_ID(int id);
-	friend std::ostream& operator << (std::ostream& out, const CS& cs);
+	explicit CS(std::ifstream& in);
+	friend std :: ostream& operator << (std::ostream& out, const CS& cs);
+	friend std::ofstream& operator << (std::ofstream& f_out, const CS& cs);
+	friend std::ifstream& operator >> (std::ifstream& f_in, CS& cs);
+	
 };

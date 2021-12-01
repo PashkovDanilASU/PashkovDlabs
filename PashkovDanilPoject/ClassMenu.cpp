@@ -6,10 +6,10 @@ void Menu :: menu_display() {
 		"3. View all objects\n"
 		"4. Edit pipes\n"
 		"5. Edit CSs\n"
-		"6. Save\n"
-		"7. Load\n"
-		"8. Search pipes\n"
-		"9. Search pipes\n"
+		"6. Search pipes\n"
+		"7. Search Cs\n"
+		"8. Save\n"
+		"9. Load\n"
 		"0. Exit\n";
 };
 
@@ -17,3 +17,65 @@ void Menu :: back_to_menu() {
 	system("cls");
 	menu_display();
 }
+
+void Menu::Out_to_File(std::unordered_map<int, Pipe>& pipes, std::unordered_map<int, CS>& compressors, std::string& File_name) {
+	std::ofstream out;
+	out.open("/Users/prope/Documents/GitHub/PashkovDlabs/PashkovDlabs/PashkovDanilPoject/Debug" + File_name);
+	if (!out.is_open()) {
+        std:: cout << "File don't find\n ";
+	}
+	if (!pipes.empty()) {
+		out << "Pipe" << std :: endl << pipes.size() << std::endl;
+		for (const auto& item : pipes) {
+			out << item.second;
+		}
+	}
+	if (!compressors.empty()) {
+		out << "CS" << std::endl << compressors.size() << std::endl;
+		for (const auto& item : compressors) {
+			out << item.second;
+		}
+	}
+    std::cout << "Data is upload to file" << std::endl;
+	out.close();
+}
+
+void Menu::In_from_file(std::unordered_map<int, Pipe>& pipes, std::unordered_map<int, CS>& compressors, std::string& File_name) {
+    std::ifstream in("/Users/prope/Documents/GitHub/PashkovDlabs/PashkovDlabs/PashkovDanilPoject/Debug" + File_name);
+    if (!in.is_open()) {
+        std:: cout << "File don't find" << std::endl;
+        return;
+    }
+    else if (in.eof()) {
+        std:: cout << "File is empty" << std::endl;
+        return;
+    }
+    std::string check;
+    in >> check;
+    if (check == "Pipe") {
+        pipes.clear();
+        int count_pipe;
+        in >> count_pipe;
+        for (int i = 0; i < count_pipe; ++i) {
+            Pipe new_pipe(in);
+            in >> new_pipe;
+            pipes.insert({ new_pipe.get_ID(), new_pipe });
+        }
+        if (!in.eof()) {
+            in >> check;
+        }
+    }
+    if (check == "CS") {
+        compressors.clear();
+        int count_cs;
+        in >> count_cs;
+        for (int i = 0; i < count_cs; ++i) {
+            CS new_CS(in);
+            in >> new_CS;
+            compressors.insert({ new_CS.get_ID(), new_CS });
+        }
+    }
+    std:: cout << "You download data from file" << std::endl;
+    in.close();
+}
+
