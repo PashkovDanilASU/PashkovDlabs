@@ -3,6 +3,8 @@
 #include <fstream>
 #include <string>
 
+/* #ifndef CLASSCS_H
+#define CLASSCS_H*/
 
 class CS{
 private:
@@ -21,3 +23,5 @@ public:
 	friend std::ifstream& operator >> (std::ifstream& f_in, CS& cs);
 	
 };
+
+//#endif // !CLASS_CS_H

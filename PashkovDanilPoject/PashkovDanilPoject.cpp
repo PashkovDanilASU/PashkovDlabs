@@ -6,20 +6,22 @@
 #include "ClassPipe.h"
 #include "ClassMenu.h"
 #include "ClassIntilization.h"
+#include "AllPipes.h"
 
 using namespace std;
 
 int main() {
+	PipeCollection new_PipeCollection;
 	std::unordered_map<int, CS> CSs;
-	std::unordered_map<int, Pipe> pipes;
+	std::unordered_map<int, Pipe> pipes = new_PipeCollection.pipeCollection;
 	int menu_navigator;
 	Menu :: menu_display();
 	while (true){
+		std::cin >> std::ws;
 		Validation:: input_range(menu_navigator, 9, 0);
 		switch (menu_navigator){
 		case 1:{
-			Pipe new_pipe;
-			pipes.insert({ new_pipe.get_ID(), new_pipe });
+			new_PipeCollection.AddPipe();		
 			break;
 		}
 		case 2: {
@@ -28,7 +30,8 @@ int main() {
 			break;
 		}
 		case 3: 
-			if (pipes.empty() && CSs.empty()) {
+			new_PipeCollection.PrintPipe();
+			/*if (pipes.empty() && CSs.empty()) {
 				cout << "Your Pipe and CS data are empty. Try again after adding info." << endl;
 				break;
 			}
@@ -44,15 +47,18 @@ int main() {
 				for (auto item : CSs) {
 					cout << item.second;
 				}
-			}
+			}*/
 			break;
 		case 4:
+			new_PipeCollection.ChangePipe();
 			break;
 		case 5:
 			break;
 		case 6:
+			new_PipeCollection.BatchChangePipe();
 			break;
 		case 7:
+			new_PipeCollection.DeletePipe();
 			break;
 		case 8:{
 			if (CSs.empty() && pipes.empty()) {
@@ -61,7 +67,6 @@ int main() {
 			}
 			string file_name;
 			cout << "Enter the file name:";
-			cin.clear();
 			cin.ignore(10000, '\n');
 			getline(cin, file_name);
 			Menu :: Out_to_File(pipes, CSs, file_name);

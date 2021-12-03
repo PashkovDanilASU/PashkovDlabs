@@ -2,6 +2,9 @@
 #include "ClassIntilization.h"
 #include "ClassMenu.h"
 
+int Pipe::MaxID = 0;
+
+
 int Pipe:: get_ID() const{
 	return  id;
 }
@@ -34,7 +37,10 @@ void Pipe::ready_unready_pipe(bool& repair) {
 
 };
 
-int Pipe::MaxID = 0;
+void Pipe::switch_repair() {
+	ready_unready = Validation::is_boolean_value("Pipe ready or unready (yes or no)");
+}
+
 
  Pipe:: Pipe() {
 	system("cls");

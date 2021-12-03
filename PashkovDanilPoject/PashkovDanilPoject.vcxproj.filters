@@ -30,6 +30,9 @@
     <ClCompile Include="PashkovDanilPoject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AllPipes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PashkovDanilPoject.h">
@@ -45,6 +48,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ClassMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AllPipes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -4,10 +4,10 @@ void Menu :: menu_display() {
 	std :: cout << "1. Add pipe\n"
 		"2. Add CS\n"
 		"3. View all objects\n"
-		"4. Edit pipes\n"
+		"4. Edit pipe\n"
 		"5. Edit CSs\n"
-		"6. Search pipes\n"
-		"7. Search Cs\n"
+		"6. Packet redackt pipes\n"
+		"7. Delete pipe \n"
 		"8. Save\n"
 		"9. Load\n"
 		"0. Exit\n";
