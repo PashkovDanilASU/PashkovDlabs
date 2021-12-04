@@ -12,6 +12,25 @@ void CS::set_ID(int value) {
 	id = value;
 }
 
+void CS::Change_count_workshops()
+{
+	count_ready = Validation::input_range(change_count_workshps, count, 0);
+}
+
+std :: string CS::Get_name()
+{
+	std::string name;
+	while (true) {
+		std::cout << "Enter name, which have length (1-50):";
+		std::cin >> std::ws;
+		getline(std::cin, name);
+		if (size(name) <= 50) {
+			return name;
+			break;
+		}
+	};
+}
+
 int CS::MaxID = 0;
 
 CS :: CS()

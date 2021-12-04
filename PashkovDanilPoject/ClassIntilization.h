@@ -9,6 +9,7 @@
 namespace Validation {
 	bool is_input_valid();
 	bool is_boolean_value(std :: string str);
+    std::string Get_name();
 	template <typename T>
 	T input_range(T& number, T max, T min);
     template <typename T>

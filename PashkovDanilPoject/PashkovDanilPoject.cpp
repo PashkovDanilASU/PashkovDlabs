@@ -7,11 +7,13 @@
 #include "ClassMenu.h"
 #include "ClassIntilization.h"
 #include "AllPipes.h"
+#include "AllCSs.h"
 
 using namespace std;
 
 int main() {
 	PipeCollection new_PipeCollection;
+	CSCollection new_CSCollection;
 	std::unordered_map<int, CS> CSs;
 	std::unordered_map<int, Pipe> pipes = new_PipeCollection.pipeCollection;
 	int menu_navigator;
@@ -25,43 +27,37 @@ int main() {
 			break;
 		}
 		case 2: {
-			CS new_CS;
-			CSs.insert({ new_CS.get_ID(), new_CS });
+			new_CSCollection.AddCS();
 			break;
 		}
 		case 3: 
 			new_PipeCollection.PrintPipe();
-			/*if (pipes.empty() && CSs.empty()) {
-				cout << "Your Pipe and CS data are empty. Try again after adding info." << endl;
-				break;
-			}
-			if (!pipes.empty()) {
-				cout << "Pipe info:" << endl;
-				for (auto item : pipes) {
-					cout << item.second;
-				}
-
-			}
-			if (!CSs.empty()) {
-				cout << "CS info:" << endl;
-				for (auto item : CSs) {
-					cout << item.second;
-				}
-			}*/
+			new_CSCollection.PrintCS();
 			break;
 		case 4:
 			new_PipeCollection.ChangePipe();
 			break;
 		case 5:
-			break;
-		case 6:
 			new_PipeCollection.BatchChangePipe();
 			break;
-		case 7:
+		case 6:
 			new_PipeCollection.DeletePipe();
 			break;
+		case 7:
+			new_CSCollection.ChangeCS();
+			break;
 		case 8:{
-			if (CSs.empty() && pipes.empty()) {
+			new_CSCollection.BatchChangeCS();
+			
+			break;
+		}	  
+		case 9: {
+			new_CSCollection.DeleteCS();
+			
+			break;
+		}
+		case 10: {
+			/*if (CSs.empty() && pipes.empty()) {
 				cout << "You push wrong point in menu because you don't have pipe or CS\n\n";
 				break;
 			}
@@ -70,14 +66,16 @@ int main() {
 			cin.ignore(10000, '\n');
 			getline(cin, file_name);
 			Menu :: Out_to_File(pipes, CSs, file_name);
+			*/
 			break;
-		}	  
-		case 9: {
-			string file_name;
+		}
+		case 11: {
+			/*string file_name;
 			cout << "Enter the file name:";
 			cin.ignore(10000, '\n');
 			getline(cin, file_name);
 			Menu::In_from_file(pipes, CSs, file_name);
+			*/
 			break;
 		}
 		case 0:

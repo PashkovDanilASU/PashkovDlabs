@@ -5,11 +5,13 @@ void Menu :: menu_display() {
 		"2. Add CS\n"
 		"3. View all objects\n"
 		"4. Edit pipe\n"
-		"5. Edit CSs\n"
-		"6. Packet redackt pipes\n"
-		"7. Delete pipe \n"
-		"8. Save\n"
-		"9. Load\n"
+		"5. Packet redackt pipes \n"
+		"6. Delete pipe\n"
+		"7. Edit CS \n"
+        "8. Packet redackt CSs \n"
+        "9. Delite CS \n"
+		"10. Save\n"
+		"11. Load\n"
 		"0. Exit\n";
 };
 

@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AllCSs.cpp" />
     <ClCompile Include="AllPipes.cpp" />
     <ClCompile Include="ClassCS.cpp" />
     <ClCompile Include="ClassIntilization.cpp" />
@@ -147,6 +148,7 @@
     <ClCompile Include="PashkovDanilPoject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AllCSs.h" />
     <ClInclude Include="AllPipes.h" />
     <ClInclude Include="ClassCS.h" />
     <ClInclude Include="ClassIntilization.h" />

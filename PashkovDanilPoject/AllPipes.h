@@ -16,9 +16,6 @@ public:
 	void AddPipe();
 	void ChangePipe();
 	void PrintPipe();
-	//void PrintTablePipes();
-	//void SaveToFile(std::ofstream&);
-	//void DownloadFromFile(std::ifstream&);
 	void DeletePipe();
 	void BatchChangePipe();
 };

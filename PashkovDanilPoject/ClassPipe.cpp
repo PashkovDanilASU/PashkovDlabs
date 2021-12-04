@@ -45,14 +45,7 @@ void Pipe::switch_repair() {
  Pipe:: Pipe() {
 	system("cls");
 	id = ++MaxID;
-	while (true) {
-		std::cout << "Enter Pipe name, which have length (1-50):";
-		std::cin >> std::ws;
-		getline(std::cin, name);
-		if (size(name) <= 50) {
-			break;
-		}
-	};
+	Validation::Get_name();
 	std::cout << "Enter pipe length in meters (10 - 2000): ";
 	Validation::input_range(length, 2000., 10.);
 	std::cout << "Enter pipe diametrs in millimeters (630 - 1420): ";
