@@ -16,7 +16,6 @@ public:
 	int diametr;
 	bool ready_unready;
 	double length;
-	std :: string name;
 
 	void ready_unready_pipe(bool& repair);
 	Pipe();

@@ -20,7 +20,7 @@ int main() {
 	Menu :: menu_display();
 	while (true){
 		std::cin >> std::ws;
-		Validation:: input_range(menu_navigator, 9, 0);
+		Validation:: input_range(menu_navigator, 11, 0);
 		switch (menu_navigator){
 		case 1:{
 			new_PipeCollection.AddPipe();		
@@ -47,35 +47,31 @@ int main() {
 			new_CSCollection.ChangeCS();
 			break;
 		case 8:{
-			new_CSCollection.BatchChangeCS();
-			
+			new_CSCollection.BatchChangeCS();	
 			break;
 		}	  
 		case 9: {
 			new_CSCollection.DeleteCS();
-			
 			break;
 		}
 		case 10: {
-			/*if (CSs.empty() && pipes.empty()) {
+			if (new_CSCollection.csCollection.empty() && new_PipeCollection.pipeCollection.empty()) {
 				cout << "You push wrong point in menu because you don't have pipe or CS\n\n";
 				break;
 			}
 			string file_name;
-			cout << "Enter the file name:";
+			cout << "Enter the file name: ";
 			cin.ignore(10000, '\n');
 			getline(cin, file_name);
-			Menu :: Out_to_File(pipes, CSs, file_name);
-			*/
+			Menu::Out_to_File(new_PipeCollection.pipeCollection, new_CSCollection.csCollection, file_name);
 			break;
 		}
 		case 11: {
-			/*string file_name;
-			cout << "Enter the file name:";
+			string file_name;
+			cout << "Enter the file name: ";
 			cin.ignore(10000, '\n');
 			getline(cin, file_name);
-			Menu::In_from_file(pipes, CSs, file_name);
-			*/
+			Menu::In_from_file(new_PipeCollection.pipeCollection, new_CSCollection.csCollection, file_name);
 			break;
 		}
 		case 0:

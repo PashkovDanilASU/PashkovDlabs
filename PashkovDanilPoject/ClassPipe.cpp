@@ -45,7 +45,6 @@ void Pipe::switch_repair() {
  Pipe:: Pipe() {
 	system("cls");
 	id = ++MaxID;
-	Validation::Get_name();
 	std::cout << "Enter pipe length in meters (10 - 2000): ";
 	Validation::input_range(length, 2000., 10.);
 	std::cout << "Enter pipe diametrs in millimeters (630 - 1420): ";
@@ -56,7 +55,6 @@ void Pipe::switch_repair() {
 
  std::ostream& operator << (std::ostream& out, const Pipe& pipe) {
 	 out << std::endl << "Pipe id: " << pipe.get_ID() << std::endl
-		 << "Pipe's name: " << pipe.name << std::endl
 		 << "Pipe diameter: " << pipe.diametr << std::endl
 		 << "Pipe length: " << pipe.length << std::endl
 		 << "Pipe readiness : " << (pipe.ready_unready ? "in repair" : "not in repair") << std::endl << std::endl;
@@ -64,7 +62,7 @@ void Pipe::switch_repair() {
  }
 
  std::ofstream& operator << (std::ofstream& f_out, const Pipe& pipe) {
-	f_out << pipe.get_ID() << std::endl << pipe.name << std::endl << pipe.diametr << std::endl
+	f_out << pipe.get_ID() << std::endl << pipe.diametr << std::endl
 		<< pipe.length << std::endl;
 	f_out << pipe.ready_unready << std::endl;
 	return f_out;
@@ -78,7 +76,6 @@ void Pipe::switch_repair() {
 		Pipe::MaxID = x;
 	}
 	pipe.set_ID(x);
-	getline(f_in, pipe.name);
 	f_in >> pipe.length;
 	f_in >> pipe.diametr;
 	f_in >> pipe.ready_unready;
@@ -87,7 +84,6 @@ void Pipe::switch_repair() {
 }
 
 Pipe:: Pipe(std::ifstream& in) {
-	name = "";
 	length = 0;
 	diametr = 0;
 	ready_unready = false;
