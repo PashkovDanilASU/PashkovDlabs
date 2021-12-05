@@ -20,7 +20,7 @@ void Menu :: back_to_menu() {
 	menu_display();
 }
 
-void Menu::Out_to_File(std::unordered_map<int, Pipe>& pipes, std::unordered_map<int, CS>& compressors, std::string& File_name) {
+void Menu::Output_info_to_file(std::unordered_map<int, Pipe>& pipes, std::unordered_map<int, CS>& compressors, std::string& File_name) {
 	std::ofstream out;
 	out.open("/Users/prope/Documents/GitHub/PashkovDlabs/PashkovDlabs/PashkovDanilPoject/Debug" + File_name);
 	if (!out.is_open()) {
@@ -42,7 +42,7 @@ void Menu::Out_to_File(std::unordered_map<int, Pipe>& pipes, std::unordered_map<
 	out.close();
 }
 
-void Menu::In_from_file(std::unordered_map<int, Pipe>& pipes, std::unordered_map<int, CS>& compressors, std::string& File_name) {
+void Menu::Input_info_from_file(std::unordered_map<int, Pipe>& pipes, std::unordered_map<int, CS>& compressors, std::string& File_name) {
     std::ifstream in("/Users/prope/Documents/GitHub/PashkovDlabs/PashkovDlabs/PashkovDanilPoject/Debug" + File_name);
     if (!in.is_open()) {
         std:: cout << "File don't find" << std::endl;

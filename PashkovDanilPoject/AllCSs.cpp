@@ -1,5 +1,6 @@
 #include "AllCSs.h"
 #include "ClassIntilization.h"
+#include "ClassMenu.h"
 #include <iomanip>
 
 
@@ -31,6 +32,7 @@ void CSCollection::ChangeCS()
 {
 	size_t changeId;
 	bool query;
+	system("cls");
 	std::cout << "Total CSs added: " << csCollection.size() << std::endl
 		<< "Editable ID: ";
 	for (const auto& el : csCollection)
@@ -39,6 +41,8 @@ void CSCollection::ChangeCS()
 	if (csCollection.empty())
 	{
 		std::cout << "You have not added any CSs, editing is not available!" << std::endl;
+		system("pause");
+		Menu::back_to_menu();
 		return;
 	}
 	while (true)
@@ -52,8 +56,11 @@ void CSCollection::ChangeCS()
 			csCollection[changeId].Change_count_workshops();
 		}
 		query = Validation::is_boolean_value("\n\nContinue editing CSs ? (y / n)\n");
-		if (query != true)
+		if (query != true) {
+			system("pause");
+			Menu::back_to_menu();
 			break;
+		}
 	}
 }
 
@@ -68,6 +75,7 @@ void CSCollection::PrintFilterCS()
 
 void CSCollection::FilterCS()
 {
+	system("cls");
 	std::cout << "\n\nSelect a menu item for filtering:" << std::endl
 		<< "1. Filter by name" << std::endl
 		<< "2. Filter by percentage of unused workshops" << std::endl
@@ -89,9 +97,9 @@ void CSCollection::FilterCS()
 		case 2:
 		{
 			size_t lowPercent, upPercent, percent;
-			std::cout << "Enter the lower limit of the filter for the percentage of unused workshops at the CS(an integer from 0 to 100) ";
+			std::cout << "Enter the lower limit of the filter for the percentage of unused workshops at the CS (an integer from 0 to 99) ";
 			lowPercent = Validation::input_range(low_percent, 99, 0);
-			std::cout << "Enter the upper limit of the filter for the percentage of unused workshops at the CS(an integer from the lower limit to 100) ";
+			std::cout << "Enter the upper limit of the filter for the percentage of unused workshops at the CS (an integer from the lower limit to 100) ";
 			upPercent = Validation::input_range(up_percent, 100, low_percent);
 			for (const auto& el : csCollection)
 			{
@@ -134,6 +142,7 @@ void CSCollection::DeleteCS()
 		std::cout << "\nYou have not added any CS, deletion is not available!\n";
 		return;
 	}
+	system("cls");
 	bool query;
 	query = Validation::is_boolean_value("\nEnter 'y' if you want to delete one CS at a time, and 'n' if you want to delete batch by filter:\n");
 	if (query)
@@ -194,6 +203,7 @@ void CSCollection::DeleteCS()
 	}
 	std::cout << std::endl;
 	system("pause");
+	Menu::back_to_menu();
 }
 
 void CSCollection::BatchChangeCS()
@@ -203,6 +213,7 @@ void CSCollection::BatchChangeCS()
 		std::cout << "\nYou have not added any CS, batch editing is not available!\n";
 		return;
 	}
+	system("cls");
 	bool query;
 	query = Validation::is_boolean_value("\nEnter 'y' if you want to edit all CSs, and 'n' if only a specific subset:\n");
 	if (!query) // Редактирование части КС
@@ -247,7 +258,7 @@ void CSCollection::BatchChangeCS()
 			vectorIdForFilter.clear();
 		}
 		else
-			std::cout << "\nNo stations were found according to your filter.";
+			std::cout << "\nNo stations were found according to your filter.\n";
 	}
 	else // Редактирование всех КС
 	{
@@ -257,11 +268,11 @@ void CSCollection::BatchChangeCS()
 			std::cout << "\n\nCompressor station under id " << el.first << " has a total number of workshops: " << el.second.count << std::endl
 				<< "Number of workshops in operation: " << el.second.count_ready << std::endl;
 			std::cout << "Enter the new number of workshops in operation for this CS (it should not exceed the total number of workshops): ";
-			el.second.count_ready= Validation::input_range(new_count_ready, el.second.count_ready, 0);
-			std::cout << "Compressor station under id - " + std::to_string(el.first) + "  was not found in the list of filtered CSs.";
+			el.second.count_ready= Validation::input_range(new_count_ready, el.second.count, 0);
 		}
 		std::cout << "\nCSs edited!";
 	}
 	vectorIdForFilter.clear();
 	system("pause");
+	Menu::back_to_menu();
 }

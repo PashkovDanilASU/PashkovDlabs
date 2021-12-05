@@ -32,7 +32,7 @@ void Pipe::ready_unready_pipe(bool& repair) {
 			repair = false;
 			std::cin.ignore(10000, '\n');
 			break;
-		}
+		} 
 	}
 
 };

@@ -1,6 +1,7 @@
 #include "AllPipes.h"
 #include "ClassIntilization.h"
 #include <iomanip>
+#include "ClassMenu.h"
 
 void PipeCollection::AddPipe()
 {
@@ -12,6 +13,7 @@ void PipeCollection::ChangePipe()
 {
 	size_t changeId;
 	bool query;
+	system("cls");
 	std::cout << "All added Pipes: " << pipeCollection.size() << std::endl
 		<< "Editable ID: ";
 	for (const auto& el : pipeCollection)
@@ -20,12 +22,14 @@ void PipeCollection::ChangePipe()
 	if (pipeCollection.empty())
 	{
 		std::cout << "You have not added any pipes, editing is not available!" << std::endl;
+		system("pause");
+		Menu::back_to_menu();
 		return;
-
 	}
 	while (true)
 	{
-		changeId = Validation::input_range(pipe_id,Pipe::MaxID,1 );
+		std::cout << "Enter id of your pipe: ";
+		changeId = Validation::input_range(pipe_id,Pipe::MaxID,1);
 		if (pipeCollection.find(changeId) != pipeCollection.end())
 		{
 			std::cout << "Initial state of the pipe: "
@@ -37,6 +41,7 @@ void PipeCollection::ChangePipe()
 			std::cout << "No pipes found for the specified id." << std::endl;
 		query = Validation::is_boolean_value("\n\nContinue editing pipe? (y / n)\n");
 		if (query != true)
+			Menu::back_to_menu();
 			break;
 	}
 }
@@ -45,7 +50,7 @@ void PipeCollection::PrintPipe()
 {
 	if (pipeCollection.empty())
 	{
-		std :: cout << "\nYou have no pipes\n";
+		std :: cout << "\nYou haven't pipes\n";
 	}
 	else
 	{
@@ -60,7 +65,7 @@ void PipeCollection::PrintPipe()
 void PipeCollection::FilterPipe()
 {
 	bool query;
-	query = Validation::is_boolean_value("Enter the condition of the filter pipe: y - under repair, n - not under repair");
+	query = Validation::is_boolean_value("Enter the condition of the filter pipe: y - under repair, n - not under repair: ");
 	for (const auto& el : pipeCollection)
 		if (el.second.ready_unready == query)
 			vectorIdForFilter.push_back(el.first);
@@ -79,9 +84,10 @@ void PipeCollection::DeletePipe()
 {
 	if (pipeCollection.empty())
 	{
-		std :: cout << "You have not added any pipes, deletion is not available!";
+		std :: cout << "You have not added any pipes, deletion is not available!" << std::endl;
 		return;
 	}
+	system("cls");
 	bool query;
 	query = Validation::is_boolean_value("\nEnter 'y' if you want to remove one pipe at a time, and 'n' if you want to remove batch by filter:\n");
 	if (query)  // Удаление по одной трубе
@@ -142,18 +148,20 @@ void PipeCollection::DeletePipe()
 	}
 	std::cout << std::endl;
 	system("pause");
+	Menu::back_to_menu();
 }
 
 void PipeCollection::BatchChangePipe()
 {
 	if (pipeCollection.empty())
 	{
-		std :: cout << "\nYou haven't added any pipes, batch editing is not available!";
+		std :: cout << "\nYou haven't added any pipes, batch editing is not available!"<< std:: endl;
 		return;
 	}
+	system("cls");
 	bool query;
 	bool repairStatus;
-	std::cin >> std::ws;
+	std::cin.ignore(10000, '\n');
 	query = Validation ::is_boolean_value("\nEnter 'y' if you want to edit all pipes, and 'n' if only a specific subset:\n");
 	if (!query) // Пакетное редактирование
 	{
@@ -168,7 +176,6 @@ void PipeCollection::BatchChangePipe()
 				std::set<size_t> setIdForChange = Validation::GetMultipleNumericValues<size_t>(
 					"\nEnter the id of the pipes that you would like to edit, separated by a space: ",
 					"\nError, you entered an invalid format, please try again!");
-				std::cin.ignore(10000, '\n');
 				repairStatus = Validation::is_boolean_value("\n\nIndicate the new state for the selected pipes, if under repair, then enter 'y', if not under repair, then 'n'. ");
 				for (const auto id : setIdForChange)
 				{
@@ -184,7 +191,6 @@ void PipeCollection::BatchChangePipe()
 			}
 			else // Отредактировать часть отфильтрованных труб
 			{
-				std::cin >> std::ws;
 				repairStatus = Validation::is_boolean_value("\n\nIndicate the new state for the selected pipes, if under repair, then enter 'y', if not under repair, then 'n': ");
 				for (const auto& i : vectorIdForFilter)
 					pipeCollection[i].ready_unready = repairStatus;
@@ -192,7 +198,7 @@ void PipeCollection::BatchChangePipe()
 			}
 		}
 		else
-			std:: cout << "\nNo pipes were found for your filter!";
+			std:: cout << "\nNo pipes were found for your filter!"<< std::endl;
 		vectorIdForFilter.clear();
 	}
 	else // Редактирование всех труб
@@ -204,4 +210,5 @@ void PipeCollection::BatchChangePipe()
 		std:: cout << "\nPipes edited.";
 	}
 	system("pause");
+	Menu::back_to_menu();
 }

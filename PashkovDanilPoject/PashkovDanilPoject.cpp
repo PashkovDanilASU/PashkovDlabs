@@ -1,5 +1,4 @@
 // PashkovDanilPoject.cpp : This file contains the 'main' function. Program execution begins and ends there.
-#include "PashkovDanilPoject.h"
 #include <iostream>
 #include <unordered_map>
 #include "ClassCS.h"
@@ -19,6 +18,7 @@ int main() {
 	int menu_navigator;
 	Menu :: menu_display();
 	while (true){
+		std::cout << ">";
 		std::cin >> std::ws;
 		Validation:: input_range(menu_navigator, 11, 0);
 		switch (menu_navigator){
@@ -63,7 +63,7 @@ int main() {
 			cout << "Enter the file name: ";
 			cin.ignore(10000, '\n');
 			getline(cin, file_name);
-			Menu::Out_to_File(new_PipeCollection.pipeCollection, new_CSCollection.csCollection, file_name);
+			Menu::Output_info_to_file(new_PipeCollection.pipeCollection, new_CSCollection.csCollection, file_name);
 			break;
 		}
 		case 11: {
@@ -71,7 +71,7 @@ int main() {
 			cout << "Enter the file name: ";
 			cin.ignore(10000, '\n');
 			getline(cin, file_name);
-			Menu::In_from_file(new_PipeCollection.pipeCollection, new_CSCollection.csCollection, file_name);
+			Menu::Input_info_from_file(new_PipeCollection.pipeCollection, new_CSCollection.csCollection, file_name);
 			break;
 		}
 		case 0:
